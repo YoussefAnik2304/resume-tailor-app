@@ -1,0 +1,36 @@
+{
+  "technical_skills": {
+    "languages": ["Java", "SQL"],
+    "frameworks_and_libraries": ["Spring Boot", "React"],
+    "databases": ["PostgreSQL"],
+    "tools_and_platforms": ["Docker"]
+  },
+  "experiences": [
+    {
+      "date": "01/2020 - Present",
+      "location": "City, Country",
+      "title": "Software Engineer",
+      "company": "Company Name",
+      "bullets": [
+        "Impactful bullet point one",
+        "Impactful bullet point two"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "date": "01/2020 - 12/2020",
+      "title": "Project Name",
+      "context": "Context",
+      "bullets": [
+        "Project detail one"
+      ]
+    }
+  ],
+  "education": {
+    "date": "09/2015 - 06/2019",
+    "location": "City, Country",
+    "title": "Degree Name",
+    "technologies": "Computer Science"
+  }
+}
