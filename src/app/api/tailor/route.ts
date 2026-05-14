@@ -2,9 +2,28 @@ import { NextResponse } from 'next/server';
 import { google } from '@ai-sdk/google';
 import { generateObject } from 'ai';
 import { z } from 'zod';
-import masterData from '@/data/masterData.json';
+import sampleData from '@/data/masterData.sample.json';
 import fs from 'fs';
 import path from 'path';
+
+function getMasterData() {
+  if (process.env.RESUME_MASTER_DATA) {
+    try {
+      return JSON.parse(process.env.RESUME_MASTER_DATA);
+    } catch (e) {
+      console.error('Failed to parse RESUME_MASTER_DATA env var:', e);
+    }
+  }
+  
+  try {
+    const localPath = path.join(process.cwd(), 'src', 'data', 'masterData.json');
+    if (fs.existsSync(localPath)) {
+      return JSON.parse(fs.readFileSync(localPath, 'utf8'));
+    }
+  } catch (e) {}
+
+  return sampleData;
+}
 
 const resumeSchema = z.object({
   language: z.enum(['English', 'French']),
@@ -28,6 +47,7 @@ const resumeSchema = z.object({
 
 export async function POST(req: Request) {
   try {
+    const masterData = getMasterData();
     const { jd, generatePdf = true } = await req.json();
 
     if (!jd) {
