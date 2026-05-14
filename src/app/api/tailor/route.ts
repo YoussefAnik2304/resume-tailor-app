@@ -28,7 +28,7 @@ const resumeSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const { jd } = await req.json();
+    const { jd, generatePdf = true } = await req.json();
 
     if (!jd) {
       return NextResponse.json({ error: 'Job description is required' }, { status: 400 });
@@ -54,6 +54,10 @@ export async function POST(req: Request) {
       5. For 'skills', merge my Core Technologies with any extra skills from the JD into a single bullet-separated string. DO NOT duplicate skills.
       6. ATS OPTIMIZATION: The resulting resume MUST pass at least a 95% ATS score. Use exact keywords and phrasing from the JD where appropriate in the profile, selected bullets, and skills section. The 'targetJobTitle' MUST exactly match the JD title.`
     });
+
+    if (!generatePdf) {
+      return NextResponse.json({ success: true, tailoredData: object });
+    }
 
     const tempId = Date.now().toString();
     const tempDir = path.join(process.cwd(), 'tmp');
