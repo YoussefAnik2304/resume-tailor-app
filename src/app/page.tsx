@@ -21,6 +21,8 @@ export default function Home() {
   const [tailoredData, setTailoredData] = useState<any>(null);
   const [error, setError] = useState('');
 
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   const handleGenerate = async (withPdf: boolean) => {
     if (!jd.trim()) return;
     if (withPdf) setLoadingPdf(true);
@@ -81,17 +83,19 @@ export default function Home() {
             <button
               onClick={() => handleGenerate(false)}
               disabled={loadingPdf || loadingText || !jd.trim()}
-              className="w-full md:w-1/2 px-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95"
+              className={`w-full ${isDevelopment ? 'md:w-1/2' : ''} px-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95`}
             >
               {loadingText ? 'Generating Content...' : 'Generate Text Content Only'}
             </button>
-            <button
-              onClick={() => handleGenerate(true)}
-              disabled={loadingPdf || loadingText || !jd.trim()}
-              className="w-full md:w-1/2 px-6 py-4 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl font-semibold border border-neutral-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95"
-            >
-              {loadingPdf ? 'Generating PDF...' : 'Generate Local PDF'}
-            </button>
+            {isDevelopment && (
+              <button
+                onClick={() => handleGenerate(true)}
+                disabled={loadingPdf || loadingText || !jd.trim()}
+                className="w-full md:w-1/2 px-6 py-4 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl font-semibold border border-neutral-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95"
+              >
+                {loadingPdf ? 'Generating PDF...' : 'Generate Local PDF'}
+              </button>
+            )}
           </div>
             
           {error && (
