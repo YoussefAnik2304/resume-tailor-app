@@ -72,11 +72,15 @@ export async function POST(req: Request) {
       3. For 'experiences', you MUST recreate my exact jobs using the exact dates, locations, titles, and companies from the Master Data. Select AS MANY relevant bullets as possible (up to 7 per job) and tailor them to the JD! You MUST aggressively wrap key technologies, metrics, and impactful verbs in **bold** (e.g., "Built **backend services** using **Java**, reducing latency by **20%**").
       4. For 'projects', you MUST recreate my exact projects using the exact dates and titles from the Master Data. Output ALL of their bullets exactly as they appear in the Master Data, but you may wrap key technologies in **bold**.
       5. For 'skills', merge my Core Technologies with any extra skills from the JD into a single bullet-separated string. DO NOT duplicate skills.
-      6. ATS OPTIMIZATION: The resulting resume MUST pass at least a 95% ATS score. Use exact keywords and phrasing from the JD where appropriate in the profile, selected bullets, and skills section. The 'targetJobTitle' MUST exactly match the JD title.`
+      6. ATS OPTIMIZATION: The resulting resume MUST pass at least a 95% ATS score. Use exact keywords and phrasing from the JD where appropriate in the profile, selected bullets, and skills section. The 'targetJobTitle' MUST exactly match the JD title.
+      ENCODING RULE: You MUST output proper Unicode characters at all times. Never drop, strip, or ASCII-approximate accented characters. French accented letters (é, è, ê, à, ù, ô, î, etc.) MUST appear correctly in the output.`
     });
 
     if (!generatePdf) {
-      return NextResponse.json({ success: true, tailoredData: object });
+      return new Response(
+        JSON.stringify({ success: true, tailoredData: object }),
+        { headers: { 'Content-Type': 'application/json; charset=utf-8' } }
+      );
     }
 
     const tempId = Date.now().toString();
@@ -84,7 +88,7 @@ export async function POST(req: Request) {
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir);
     }
-    fs.writeFileSync(path.join(tempDir, `${tempId}.json`), JSON.stringify(object));
+    fs.writeFileSync(path.join(tempDir, `${tempId}.json`), JSON.stringify(object, null, 2), 'utf8');
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const pdfResponse = await fetch(`${baseUrl}/api/pdf`, {
