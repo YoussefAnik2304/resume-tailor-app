@@ -40,7 +40,7 @@ export default async function PreviewPage(props: { searchParams: Promise<{ id?: 
   };
 
   return (
-    <div className="bg-white text-neutral-950 font-sans w-[794px] min-h-[1123px] mx-auto p-4 relative box-border text-[11px] leading-tight">
+    <div className="bg-white text-neutral-950 font-sans w-[794px] min-h-[1123px] mx-auto p-4 relative box-border text-[11px] leading-[1.45]">
       {/* Header */}
       <header className="mb-2 text-center border-b-2 border-neutral-800 pb-2">
         <h1 className="text-3xl font-extrabold tracking-tight text-black">Anik Youssef</h1>
@@ -131,10 +131,10 @@ export default async function PreviewPage(props: { searchParams: Promise<{ id?: 
         </h3>
         <div className="flex justify-between items-baseline">
           <h4 className="font-bold text-black text-[12.5px]">
-            {isFr ? 'Diplôme d’Ingénieur d’État en Génie Logiciel (Équivalent Master)' : 'Software Engineering Degree (Master\'s Equivalent)'} 
+            {isFr ? 'Diplôme d’Ingénieur d’État en Génie Logiciel' : 'State Engineer Degree in Software Engineering'} 
             <span className="font-normal text-neutral-700"> | National School of Applied Sciences (ENSA-H)</span>
           </h4>
-          <span className="text-[11px] font-bold text-neutral-600">09/2020 – 07/2025 | Al Hoceima, Maroc</span>
+          <span className="text-[11px] font-bold text-neutral-600">09/2020 – 07/2025 | Al Hoceima, Morocco</span>
         </div>
       </section>
     </div>
